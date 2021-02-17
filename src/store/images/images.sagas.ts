@@ -1,10 +1,10 @@
 import {addImage, deleteSavedImages, loadImages, parseImage, saveImages, setImages} from "~store/images/images.actions";
 import { put, takeEvery } from 'redux-saga/effects'
-import { getBase64 } from "~util/base64";
+import { resizedFile } from "~util/resizedFile";
 
 function * parseImageSaga (action) {
-  const base64 = yield getBase64(action.payload);
-  yield put(addImage(base64));
+  const resized = yield resizedFile(action.payload);
+  yield put(addImage(resized));
 }
 
 function * saveImagesSaga (action) {
