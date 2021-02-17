@@ -31,7 +31,7 @@ const DropZone = () => {
     setDraggedOver(false);
     const files = Array.from(e.dataTransfer.files);
     const images = files.filter(file => allowedFileTypes.includes(file.type));
-    if (files !== images) setNoneImageFiles(true);
+    if (files.length !== images.length) setNoneImageFiles(true);
     images.forEach(file => {
       dispatch(parseImage(file));
     })
