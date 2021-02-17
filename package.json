@@ -1,0 +1,54 @@
+{
+  "name": "insta-planner",
+  "version": "1.0.0",
+  "description": "Instagram Feed Planungstool",
+  "main": "src/index.html",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html --out-dir build --public-url ./",
+    "api": "ts-node src/api/app.ts",
+    "update:packages": "node update.js && npm update --save-dev && npm update --save"
+  },
+  "browserslist": [
+    "Chrome > 75",
+    "Firefox > 66",
+    "Safari > 10"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wursteintopf/ReactBoilerplate.git"
+  },
+  "author": "Markus Vogel",
+  "license": "BEER-WARE-rev-42",
+  "bugs": {
+    "url": "https://github.com/Wursteintopf/ReactBoilerplate/issues"
+  },
+  "homepage": "https://github.com/Wursteintopf/ReactBoilerplate#readme",
+  "dependencies": {
+    "@emotion/core": "*",
+    "@emotion/styled": "*",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "*",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "*",
+    "@types/react-redux": "*",
+    "@types/react-router": "*",
+    "@types/react-router-dom": "*",
+    "array-move": "^3.0.1",
+    "parcel-bundler": "*",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "*",
+    "react-router-dom": "*",
+    "react-scroll-parallax": "^2.3.5",
+    "react-sortable-hoc": "^1.11.0",
+    "redux": "*",
+    "redux-devtools-extension": "*",
+    "redux-saga": "*",
+    "reselect": "*",
+    "typescript": "*",
+    "typescript-fsa": "*",
+    "typescript-fsa-reducers": "*"
+  }
+}

@@ -1,0 +1,11 @@
+# Jetbrains / NPM / Parcel Stuff
+.cache
+.idea
+dist
+node_modules
+
+# Code files
+*.css
+*.csv
+*.psd
+*.pem
