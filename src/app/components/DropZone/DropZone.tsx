@@ -3,10 +3,13 @@ import {StyledDropZone} from "~app/components/DropZone/DropZoneStyling";
 import { useDispatch } from 'react-redux'
 import {parseImage} from "~store/images/images.actions";
 import {gridChanged} from "~store/ui/ui.actions";
+import {IconButton, Snackbar} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 const DropZone = () => {
   const dispatch = useDispatch();
   const [draggedOver, setDraggedOver] = useState(false);
+  const [noneImageFiles, setNoneImageFiles] = useState(false);
 
   const dragOver = (e) => {
     e.preventDefault();
@@ -24,10 +27,12 @@ const DropZone = () => {
 
   const fileDrop = (e) => {
     e.preventDefault();
+    const allowedFileTypes = ['image/jpg','image/jpeg','image/png']
     setDraggedOver(false);
-    const files = e.dataTransfer.files;
-    // TODO: Sichergehen, dass alle Dateien auch wirklich Bilder sind
-    Array.from(files).forEach(file => {
+    const files = Array.from(e.dataTransfer.files);
+    const images = files.filter(file => allowedFileTypes.includes(file.type));
+    if (files.length !== images.length) setNoneImageFiles(true);
+    images.forEach(file => {
       dispatch(parseImage(file));
     })
     dispatch(gridChanged())
@@ -42,6 +47,24 @@ const DropZone = () => {
       draggedOver={draggedOver}
     >
       Just drag and drop your images here
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={noneImageFiles}
+        autoHideDuration={6000}
+        onClose={() => setNoneImageFiles(false)}
+        message="One or more of the files you tried to upload was not a JPG or PNG and therefore removed."
+        action={
+          <React.Fragment>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={() => setNoneImageFiles(false)}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </StyledDropZone>
   );
 };
