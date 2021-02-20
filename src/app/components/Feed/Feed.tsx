@@ -3,7 +3,6 @@ import {FeedContainer, FeedImage, StyledHandle} from "~app/components/Feed/FeedS
 import {useDispatch, useSelector} from 'react-redux'
 import {getImages} from "~store/images/images.selectors";
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
-import arrayMove from "array-move";
 import {deleteImageById, setImages} from "~store/images/images.actions";
 import CloseIcon from '@material-ui/icons/Close';
 import {IconButton} from "@material-ui/core";
@@ -14,7 +13,28 @@ const Feed = () => {
   const dispatch = useDispatch()
 
   const onSortEnd = ({oldIndex, newIndex}) => {
-    const newImages = arrayMove(images, oldIndex, newIndex);
+    let newImages = [...images];
+
+    let movedImage = {
+      ...newImages[oldIndex],
+      id: newImages[newIndex].id
+    }
+
+    if (oldIndex > newIndex)
+    {
+      let imagesToMove = newImages.filter(i => (i.id <= newImages[newIndex].id && i.id > newImages[oldIndex].id))
+      imagesToMove.forEach(i => i.id--)
+      let theOtherOnes = newImages.filter(i => !(i.id <= newImages[newIndex].id && i.id >= newImages[oldIndex].id))
+      newImages = [...imagesToMove, ...theOtherOnes, movedImage]
+    }
+    else
+    {
+      let imagesToMove = newImages.filter(i => (i.id >= newImages[newIndex].id && i.id < newImages[oldIndex].id))
+      imagesToMove.forEach(i => i.id++)
+      let theOtherOnes = newImages.filter(i => !(i.id >= newImages[newIndex].id && i.id <= newImages[oldIndex].id))
+      newImages = [...imagesToMove, ...theOtherOnes, movedImage]
+    }
+
     dispatch(setImages(newImages))
     dispatch(gridChanged())
   };
@@ -54,7 +74,7 @@ const Feed = () => {
   const SortableList = SortableContainer(({items}) => {
     return (
       <FeedContainer>
-        {items.map((image, index) => (
+        {items.sort((a,b) => b.id - a.id).map((image, index) => (
           <SortableImage key={index} index={index} image={image} />
         ))}
       </FeedContainer>

@@ -6,20 +6,9 @@ const INITIAL_STATE: ImagesState = {
     images: []
 }
 
-const resetIds = (images: Image[]): Image[] => {
-    let uid = -1;
-    return images.map(image => {
-        uid++;
-        return {
-            id: uid,
-            data: image.data
-        }
-    })
-}
-
 export const ImagesReducer = reducerWithInitialState(INITIAL_STATE)
     .case(addImage, (state, payload) => {
-        let lastImage = state.images.sort((a,b)=> b.id - a.id)[0]
+        let lastImage = state.images.sort((a,b)=> a.id - b.id)[state.images.length - 1]
 
         return {
             images: [{
